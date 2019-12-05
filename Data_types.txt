@@ -1,242 +1,431 @@
-Data types and visibility
+Types 
+The fundamental types in C are char (character), int (integer) and float. Some compilers include the bool data type.
+char 
+char is the character type. It usually hold 8 bits which stores an encoded character. The standard encoding scheme is ASCII. However, other encoding schemes such as EBCDIC can be used. 
 
+In C you can manipulate variables defined as character using the same operations that apply to integers.
+//
+// Character types
+//
+#include <iostream>
+#include <iomanip>
 
-Outline
+using namespace std;
 
-• Data types
-• Type conversion
-• Visibility
-
-Data types
-
-• A data type specifies:
-– The set of values that data of that type can have
-(e.g. integer, real, character, Boolean, colour,
-Greek letter, city, etc.)
-
-– The type of operations that can be performed
-with the data. For example, two integer numbers
-can be added, the population of a city can be
-calculated, etc.
-
-Basic data types in C++ (int)
-
-• Integer (int). Represent the set of integer
-numbers.
-
-– In practice, computers have a limitation representing
-integer numbers.
-– For a 32-bit machine, int can represent the numbers
-in the interval [-(231-1), 231-1].[-2147483648, 2147483647]
-– Arithmetic operators: +, -,
-?, /, %
-Integer division and remainder: 13 / 3 = 4, 13 % 3 = 1
-
-Basic data types in C++ (double)
-• Real (double). Represent the set of real numbers.
-– In practice, computers can only represent real
-numbers in a certain interval and with a certain
-accuracy.
-– IEEE 754-1985 standard, double-precision 64 bit:
-• Numbers closest to zero: ±5 × 10?324
-• Numbers furthest from zero: ±1.7976931348623157 × 10308
-• Special representations for 0, +? and -?
-Real division: 13.0 / 4.0 = 3.25
-
-Basic data types in C++ (bool)
-• Boolean (bool). Represent logic values.
-– Values: false and true
-– Operators: not, and, or.
-x not x
-false true
-true false
-x y x and y
-false false false
-false true false
-true false false
-true true true
-x y x or y
-false false false
-false true true
-true false true
-true true true
-Basic data types in C++ (bool)
-• Properties of Boolean algebra
-– Commutativity:
-• a and b = b and a
-• a or b = b or a
-– Associativity:
-• (a and b) and c = a and (b and c)
-• (a or b) or c = a or (b or c)
-– Distributivity:
-• a and (b or c) = (a and b) or (a and c)
-• a or (b and c) = (a or b) and (a or c)
-– Double negation:
-• not (not a) = a
-– De Morgan’s law:
-• not (a and b) = (not a) or (not b)
-• not (a or b) = (not a) and (not b)
-Basic data types in C++ (char)
-• Character (char). Represent letters, digits, punctuation
-marks and control characters.
-• Every character is represented by a code (integer number).
-There are various standard codes:
-– American Standard Code for Information Interchange (ASCII)
-– Unicode (wider than ASCII)
-• Some characters are grouped by families (uppercase letters,
-lowercase letters and digits). Characters in a family have
-consecutive codes: 'a'…'z', 'A'…'Z', '0'…'9'
-• Operators: given the integer encoding, arithmetic operators
-can be used, even though only addition and subtraction
-make sense, e.g. 'C'+1='D', 'm'+4='q', 'G'-1='F'.
-
-Basic data types in C++ (char)
-
-Basic data types in C++ (string)
-• Strings (string). Represent sequences of
-characters.
-• Examples
-– "Hello, world!", "This is a string", ":-)", "3.1416"
-– "" is the empty string (no characters)
-– 'A' is a character, "A" is a string
-• Note: use #include <string> in the header of a
-Relational operators
-• The values of most data types can be compared using
-relational operators:
-== != > >= < <=
-• Relational operators return a Boolean value (true or false)
-• Examples
-– 5 == 5 is true, 5 == 6 is false, 5 != 6 is true
-– 3.1416 <= 7 is true, -5.99 >= 0.1 is false
-– 'J' <= 'K' is true, 'a' == 'A' is false
-– "Obama" == "Bush" is false, "Bush" == "Bush" is true,
-"Bush" < "Obama" is true, "book" < "booking" is true
-(relational operators use lexicographical order in strings)
-Variable declarations
-• A variable is declared as:
-type variable_name;
-• Examples
-int population;
-double distance;
-string my_name;
-• Several variables can be declared together:
-int age, children, cars;
-• After its declaration, the value of a variable is
-undefined (unknown).
-Expressions
-• Expression: a combination of literals,
-variables, operators and functions that is
-evaluated and returns a value
-• Examples:
-a + 3?(i - 1) ? int
-sqrt(x)?log(4?n) ? double
-(i - 3) <= x ? bool
-(a != b) and (s <= "abc") ? bool
-Expressions
-• The operands used in expressions must be
-consistent with the operators.
-int a, b, n;
-…
-(a <= b) + n (Incorrect expression:
-semantic error)
-bool int
-cannot add bool to int
-Expressions
-• Operators in expressions are evaluated according
-to certain rules of precedence
-• Example: 3 + 4?5 != (3 + 4)?5
-• Use parenthesis to change the precedence or
-when you are not sure about it.
-Introduction to Programming © Dept. CS, UPC 15
-Unary +, - , not
-Multiplicative ? / %
-Additive + -
-Relational (inequalities) > >= < <=
-Relational (equalities) == !=
-Conjunction and
-Disjunction or
-TYPE CONVERSION
-Introduction to Programming © Dept. CS, UPC 16
-Type conversion
-• Consider the following code:
-int i = 5;
-char a = ‘B’;
-double x = 1.5;
-i = i + x;
-if (i) x = 5?a;
-Introduction to Programming © Dept. CS, UPC 17
-Type conversion
-• In many programming languages, the compiler would
-report several type errors. Possibly:
-int i = 5;
-char a = ‘B’;
-double x = 1.5;
-i = i + x;
-if (i) x = 5?a;
-Introduction to Programming © Dept. CS, UPC 18
-Type conversion
-• In C++, there would be no errors in this fragment of
-code:
-int i = 5;
-char a = ‘B’;
-double x = 1.5;
-i = i + x; // i gets the value 6
-if (i) x = 5?a;
-// the condition of the if statement
-// would be true and x would get 5
-// multiplied by the code of ‘B’
-// converted into double
-Type conversion
-• As a general rule, using implicit type conversions is
-not considered to be a good practice because:
-– The code is less readable.
-– The code is less reliable, since unintentional errors may be
-introduced and they may be difficult to debug.
-• Recommendation: to operate with different types, use
-explicit type conversions
-char(i), int(‘a’), double(i)
-• Never use statements that depend on a particular encoding:
-– Wrong: c == 65, c == char(65), int(c) == 65
-– Correct: c == ‘A’
-• Arithmetic operations between integer and real values
-usually imply an implicit conversion into real values.
-• Be careful:
-int i=3, j=2;
-double x;
-x = i/j; // x = 1.0
-x = i/double(j); // x = 1.5
-x = double(i)/j; // x = 1.5
-x = double(i/j); // x = 1.0
-x = i/2; // x = 1.0
-x = i/2.0; // x = 1.5
-
-VISIBILITY
-Visibility of variables
-• Variables are only visible after their
-declaration and in the block they have been
-declared.
-• Blocks can include other blocks. The variables
-of the outer blocks are visible, a priori, in the
-inner blocks.
-• A variable declared in an inner block masks
-the variables with the same name declared in
-outer blocks.
-
-Visibility of variables
+int main () 
 {
-// a and b are not visible
-int a = 1, b = 20;
-// a and b are visible
-cout << a; // writes 1
+    char letter;
+    int x;
+    
+    letter='x';
+    cout << "The size of the char is " << sizeof(char) << endl;
+    for(x=0;x<5;x++) {
+	 cout << letter << "\t" 
+              << int(letter) << "\t" i
+              << hex << int(letter) << endl;
+         cout << dec;
+         letter++;
+    }
+    system("pause");
+    return 0;
+}            
+The size of the char is 1
+x       120     78
+y       121     79
+z       122     7a
+{       123     7b
+|       124     7c
+Press any key to continue . . .
+bool The bool type takes one byte and stores a value of true (1) or false(0).
+//
+// Boolean types
+//
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+int main () 
 {
-// c is not visible, a and b are visible
-cout << a + b; // writes 21
-int b = 3, c = 4;
-// b and c are visible,
-// but the outer b is not visible
-cout << b; // writes 3
-cout << c; // writes 4
+    char letter;
+    bool fv,tv;
+    
+    tv=true;
+    fv=false;
+    
+    cout << "The size of a bool is " << sizeof(bool) << endl;
+    cout << "true\t"  << tv << "\t" 
+	 << int(tv) << "\t" 
+         << hex << int(tv) << dec << endl;
+    cout << "false\t" << fv << "\t" 
+         << int(fv) << "\t" i
+         << hex << int(fv) << dec << endl;
+    system("pause");
+    return 0;
+}            
+The size of a bool is 1
+true    1       1       1
+false   0       0       0
+Press any key to continue . . .
+int 
+int is the integer data type. Integers are represented in binary format.
+Binary numbers may be stored in either 1's or 2's complement form. Most machines use 2' complement. To form 1's complement just invert the bits. For two complement invert the bits and add one. An interesting property of one's complement is that there are two ways to represent zero. 
+The size of an int is 4. 
+In binary arithmetic subtraction is done by complementing a number and then adding it. To add binary numbers use the following rules.
+ 0 + 0 = 0
+ 0 + 1 = 1
+ 1 + 0 = 1
+ 1 + 1 = 10
+
+for ease 1 + 1 + 1 = 11
+
+to add 7 + 4
+
+4       0000 0000 0000 0000 0000 0000 0000 0100
+7       0000 0000 0000 0000 0000 0000 0000 0111
+-----------------------------------------------
+        0000 0000 0000 0000 0000 0000 0000 1011
+
+  
+
+to subtract 7 - 6
+
+First form the complement of 6  
+    6 = 0000 0000 0000 0000 0000 0000 0000 0110
+	1111 1111 1111 1111 1111 1111 1111 1001  invert bits
+        0000 0000 0000 0000 0000 0000 0000 0001  add one
+      -------------------------------------------
+        1111 1111 1111 1111 1111 1111 1111 1010  -6
+        0000 0000 0000 0000 0000 0000 0000 0111  add 7
+       ------------------------------------------
+       10000 0000 0000 0000 0000 0000 0000 0001 1
+
+ignore the final carry as it is overflow. 
+
+
+The range of integer variable is determined by the size of the integer. For an integer with n bits the range on a two's complement machine is: 
+
+- 2 n-1 .. 2 n-1 -1 
+
+On a one's complement machine the lower bound becomes 
+
+- 2n-1 -1 
+
+Since most machines use two's complement you can usually expect:
+  Bits                 Low                  High
+  16               -32,768                32,767
+  32        -2,147,483,648         2,147,483,647
+
+Overflow
+   int k,x;
+   k=0x7ffffffa;
+    for(x=0;x<10;x++) {
+       cout << k << "\t";
+       printbinary(k);
+       k++;
+    }  
+2147483642      0111 1111 1111 1111 1111 1111 1111 1010
+2147483643      0111 1111 1111 1111 1111 1111 1111 1011
+2147483644      0111 1111 1111 1111 1111 1111 1111 1100
+2147483645      0111 1111 1111 1111 1111 1111 1111 1101
+2147483646      0111 1111 1111 1111 1111 1111 1111 1110
+2147483647      0111 1111 1111 1111 1111 1111 1111 1111
+-2147483648     1000 0000 0000 0000 0000 0000 0000 0000
+-2147483647     1000 0000 0000 0000 0000 0000 0000 0001
+-2147483646     1000 0000 0000 0000 0000 0000 0000 0010
+-2147483645     1000 0000 0000 0000 0000 0000 0000 0011
+C++ supports the concept of unsigned integers like 
+   unsigned int k;
+   k=0x7ffffffa;
+    for(x=0;x<10;x++) {
+       cout << k << "\t";
+       printbinary(k);
+       k++;
+    }  
+2147483642      0111 1111 1111 1111 1111 1111 1111 1010
+2147483643      0111 1111 1111 1111 1111 1111 1111 1011
+2147483644      0111 1111 1111 1111 1111 1111 1111 1100
+2147483645      0111 1111 1111 1111 1111 1111 1111 1101
+2147483646      0111 1111 1111 1111 1111 1111 1111 1110
+2147483647      0111 1111 1111 1111 1111 1111 1111 1111
+2147483648      1000 0000 0000 0000 0000 0000 0000 0000
+2147483649      1000 0000 0000 0000 0000 0000 0000 0001
+2147483650      1000 0000 0000 0000 0000 0000 0000 0010
+2147483651      1000 0000 0000 0000 0000 0000 0000 0011
+The C/C++ compilers accept the integer modifiers short and long for integers, but the implementation is left to the hardware. You are guaranteed that a short will be no bigger than an int and a long will be no smaller than an int. 
+
+Float
+
+real numbers are stored as floating point approximations of the number. Floating point numbers are divided into sign bit, exponent and mantissa. In most hardware the mantissa is normalized between with the most significant 1 to the left of the decimal point.The number of bits devoted to the mantissa determines the precision of the number, or how many digits may be represented. The number of bits in the exponent determines the range (magnitude) of the number. 
+Intel uses the IEEE 754 format 
+
+sign bit 
+8 bit exponent 
+23 bit mantissa. 
+
+The exponent is stored biased 127. 127 is added to the exponent. Exponents larger than 127 are positive, less than 127 are negative exponents. 
+Convert 17.125 to floating point.
+Convert 17 to Binary
+      17 / 2 = 8  r 1
+      8  / 2 = 4  r 0
+      4  / 2 = 2  r 0
+      2  / 2 = 1  r 0
+      1  / 2 = 0  r 1  stop read backwards
+
+      1710 = 100012
+
+Convert .125 to binary
+      .125 x 2 = 0.25   0
+      .25  x 2 = 0.50   0
+      .5   x 2 = 1.0    1
+       0   stop when zero or you run out of bits
+
+       .12510 = .0012
+
+17.12510 = 10001.0012 
+Move the decimal point 4 digits to the left (4 = 100) 
+1.0001001 x 2100 
+Bias the exponent by 127
+          0111 1111  (127 in binary)
+	  0000 0100
+	  ----------
+          1000 0011
+Sign bit =0
+Exponent = 10000011
+Mantissa = 0001001
+17.125 = 0100 0011 0001 0010 0000 0000 0000 0000= 0x43120000
+Other floating float point numbers
+1 = 0  01111111 00000000000000000000000
+2 = 0  10000000 00000000000000000000000
+4 = 0  10000001 00000000000000000000000
+100 = 0  10000101 10010000000000000000000
+0.0001 = 0  01110001 10100011011011100010111
+1.9 = 0  01111111 11100110011001100110011
+-1.9 = 1 01111111 11100110011001100110011
+Double C++ has a double ( meaning double precision) type that extends the mantissa. Different manufactures use various schemes to divide up the exponent and mantissa. As the following table represents various 64 bit schemes
+Vendor	Exponent bits	Low	High	Mantissa bits	Decimal Digits
+IEEE	11	-308	308	52	16	
+Cyber	11	-293	323	48	15	
+IBM 3081	7	-79	75	56	16	
+VAX D	7	-39	38	56	17	
+VAX G	11	-309	307	52	16	
+Cray	15	-2466	2465	48	14	
+
+
+In representing a floating point number if the exponent exceeds the the maximum we say an overflow has occurred. If the exponent becomes smaller than the minimum, we say an underflow has occurred. 
+Floating point overflow.
+#include <iostream.h>
+#include <values.h>
+void main()
+{
+  float maxf= MAXFLOAT;
+  
+  cout << maxf <<end; 
+  maxf=maxf+MAXFLOAT;
+  cout << maxf <<endl;
 }
-// c is not visible
-cout << b; // writes 20
+
+3.40282e+38
+infinity
+
+Floating point underflow.
+#include <values.h>
+#include <iostream.h>
+void main()
+{
+  float minf= MINFLOAT;
+  
+  cout << minf << endl;   
+  minf=minf/1000000;
+  cout << minf << endl;  
 }
+
+1.4013e-45
+0
+
+Since floating number numbers are approximations to the actual number there exist a problem with roundoff errors as demonstrated here:
+#include <iostream.h>
+main()
+{
+ float value,sum;
+ int count;
+
+ sum=0.0;
+ value=1e-3;
+ for(count=0;count<1000;count++) sum+=value;
+ cout << sum <<endl;
+
+ sum=0.0;
+ value=1e-4;
+ for(count=0;count<10000;count++) sum+=value;
+ cout << sum <<endl;
+
+ sum=0.0;
+ value=1e-5;
+ for(count=0;count<100000;count++) sum+=value;
+ cout << sum <<endl;
+}
+When this program is run on a 32 and 64 bit words the results are:
+ Results
+
+ 32-bit        64-bit
+
+0.999991      1.000000
+1.000054      1.000000
+1.000990      1.000000
+When doing floating point arithmetic we are concerned with "what is the smallest value that will make a difference in logical operations?". This is called the machine epsilon. It can be computed:
+#include <iostream.h>
+main()
+{
+ double eps;
+
+ eps=1.0;
+
+ while(1.0+eps > 1.0) eps/=2;
+ eps*=2;
+ cout << "epsilon = " << eps << endl;
+}
+When this was compiled and run a 32 bit architecture the result was: 
+epsilon = 2.220446e-16 
+On a pentium the result was 
+epsilon = 1.084202e-19 
+Since the floating point values are approximations, this leads us to an important rule of thumb. NEVER USE EQUALITY TESTS ON FLOATS 
+
+Mixed type expressions. 
+If the operands are the same type then the result is of that type. If operands are of different types, the "narrow" types are converted to the "widest" type in the expression. This automatic promotion follows the general progression: 
+char->short->int->long->float->double 
+ int k=5;
+ float x,y=20.0;
+
+ x=y/k;
+The assignment operator uses the type of the left hand side. This may cause warnings when demotion occurs.
+To change the type explicitly use the static_cast notation.
+  float x;
+  int a=7, b=3;
+
+  x=a/b;
+What is the result?
+  float x;
+  int a=7, b=3;
+
+  x=static_cast<float>a/b;
+Now what is the result?
+
+Size of Variables 
+The size of different types can be discovered with the sizeof operator. It returns the size of the variable ( or structure) in bytes (8 bits). The following program will print out the sizes of the different types.
+#include <iostream.h>
+void main()
+{
+ cout << "char   " << sizeof(char)   << endl;
+ cout << "short  " << sizeof(short)  << endl;
+ cout << "int    " << sizeof(int)    << endl;
+ cout << "long   " << sizeof(long)   << endl;
+ cout << "float  " << sizeof(float)  << endl;
+ cout << "double " << sizeof(double) << endl;
+}
+I got the following results from running on different architectures: 
+Size of Variables
+Type	Vax	Sun	Convex	Cray	Apollo	MS VC++
+char	1	1	1	1	1	1
+short	2	2	2	8	2	2
+int	4	4	4	8	4	4
+long	4	4	4	8	4	4
+float	4	4	4	8	4	4
+double	8	8	8	8	8	8
+
+Running on the dev C++ compiler I get:
+char   1
+bool   1
+short  2
+int    4
+long   4
+float  4
+double 8
+Press any key to continue . . .
+Declaring Variables 
+In general variables may be declared inside of a block of code. A block is denoted by { }. Variables inside of a block are local to that block.
+int main()
+{
+  int a,b;
+  float c;
+  char d;
+}
+Variables may be initialized when declared with the = operator like:
+int main() 
+{
+  int a=1;
+  float b=1.2e3;
+  char c='a';
+}
+Local variables are initialized every time the block of code is executed.
+#include <iostream>
+using namespace std;
+ 
+void f();  // function prototype
+ 
+int main()
+{
+   f();  // call function f
+   f();  // call function f
+   system("pause");
+   return 0;
+ 
+}
+void f()  // function f
+{
+  int localX=1;     // declare and set local varaible
+ 
+  cout << "In Function f " << endl;
+  cout << "localX is " << localX << endl;
+  localX=2;
+  return;
+}
+ 
+In Function f
+localX is 1
+In Function f
+localX is 1
+Press any key to continue . . .
+Conditions
+#include <limits>
+#include <float.h>
+#include <iostream>
+ 
+using namespace std;
+int main()
+{
+  int max=INT_MAX;
+  cout << "The maximum value for an integer is : " << max << endl;
+  cout << "Add +1 to go over the max - overflow" << endl;
+  max++;
+  cout << "Now the value is : " << max << endl;
+  cout << endl;
+ 
+  float maxf= FLT_MAX;
+  cout << "The Maximum Float Value is : " <<  maxf <<endl;
+  cout << "Times 1 million to force overflow" << endl;
+  maxf*=1.0e6;
+  cout << "After overflow : " << maxf <<endl;
+  cout << endl;
+  
+  float minf=FLT_MIN;
+  cout << "The Minimum Float Value is  " << minf << endl;
+  cout << "Divide by 1 trillion to force underflow " << endl;
+  minf/=1.0e12;
+  cout << "After underflow : " << minf << endl;
+ 
+  system("pause");
+  return 0;
+}
+ 
+The maximum value for an integer is : 2147483647
+Add +1 to go over the max - overflow
+Now the value is : -2147483648
+ 
+The Maximum Float Value is : 3.40282e+038
+Times 1 million to force overflow
+After overflow : 1.#INF
+ 
+The Minimum Float Value is  1.17549e-038
+Divide by 1 trillion to force underflow
+After underflow : 0
